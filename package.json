@@ -1,0 +1,53 @@
+{
+	"name": "captain-jack-trivia",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"engines": {
+		"node": "24.x"
+	},
+	"overrides": {
+		"@sveltejs/kit": {
+			"cookie": "^0.7.2"
+		}
+	},
+	"scripts": {
+		"dev": "vite dev --host 127.0.0.1",
+		"demo": "tsx scripts/test-server.ts",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"format": "prettier --write .",
+		"test": "vitest run",
+		"test:e2e": "playwright test",
+		"db:indexes": "tsx --env-file=.env scripts/operator.ts indexes",
+		"admin:create": "tsx --env-file=.env scripts/operator.ts create",
+		"admin:reset": "tsx --env-file=.env scripts/operator.ts reset"
+	},
+	"dependencies": {
+		"@fontsource/barlow": "^5.3.0",
+		"@fontsource/libre-caslon-display": "^5.3.0",
+		"@js-temporal/polyfill": "^0.5.1",
+		"@sveltejs/adapter-vercel": "^6.3.4",
+		"@sveltejs/kit": "^2.70.3",
+		"better-auth": "^1.7.3",
+		"ipaddr.js": "^2.5.0",
+		"mongodb": "^7.6.0",
+		"svelte": "^5.57.0",
+		"zod": "^4.5.4"
+	},
+	"devDependencies": {
+		"@axe-core/playwright": "^4.13.0",
+		"@playwright/test": "^1.63.0",
+		"@sveltejs/vite-plugin-svelte": "^7.3.0",
+		"@types/node": "^24.0.0",
+		"mongodb-memory-server": "^11.2.0",
+		"prettier": "^3.9.6",
+		"prettier-plugin-svelte": "^4.1.1",
+		"svelte-check": "^4.7.6",
+		"tsx": "^4.23.13",
+		"typescript": "^6.0.3",
+		"vite": "^8.2.2",
+		"vitest": "^4.1.11"
+	}
+}

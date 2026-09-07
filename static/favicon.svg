@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<title>Captain Jack</title>
+	<rect width="64" height="64" rx="10" fill="#10191e" />
+	<g fill="none" stroke="#d3b475" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+		<circle cx="32" cy="14" r="5" />
+		<path d="M32 19v34M20 29h24M12 38c0 10 10 12 20 17 10-5 20-7 20-17M9 42l3-6 6 3M46 39l6-3 3 6" />
+	</g>
+</svg>

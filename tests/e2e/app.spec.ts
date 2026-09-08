@@ -1,6 +1,28 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 const suffix = () => Math.random().toString(36).slice(2, 8);
+for (const path of ['/', '/join']) {
+	test(`Wi-Fi retry rechecks the network on ${path}`, async ({ page, context }) => {
+		await context.setExtraHTTPHeaders({ 'x-vercel-forwarded-for': '192.0.2.1' });
+		await page.goto(`http://127.0.0.1:5174${path}`);
+		await expect(page.locator('html[data-hydrated="true"]')).toBeAttached();
+		const retry = page.getByRole('link', { name: 'I’m connected — try again' });
+		await expect(retry).toBeVisible();
+		// Still off-site: retry must continue to deny access.
+		await retry.click();
+		await expect(retry).toBeVisible();
+		await expect(page.locator('html[data-hydrated="true"]')).toBeAttached();
+		// Simulate joining the bar network; only the next request sees the new IP.
+		await context.setExtraHTTPHeaders({ 'x-vercel-forwarded-for': '127.0.0.1' });
+		await retry.click();
+		await expect(retry).toHaveCount(0);
+		if (path === '/join') {
+			await expect(page.getByLabel('Your public nickname')).toBeVisible();
+		} else {
+			await expect(page.getByRole('heading', { name: 'A little knowledge. A little friendly rivalry.' })).toBeVisible();
+		}
+	});
+}
 test('offline submission preserves the active question and its original deadline', async ({
 	page,
 	context

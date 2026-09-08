@@ -13,7 +13,7 @@
 		<a class="button" href="/">Back to the challenge</a>
 		<form method="POST" action="?/logout"><button class="subtle">Sign out</button></form>
 	{:else if !data.barNetwork}<p>Join Captain Jack’s Wi-Fi to play.</p>
-		<a class="button" href="/join">I’m connected — try again</a>
+		<a class="button" href="/join" data-sveltekit-reload>I’m connected — try again</a>
 	{:else}<div class="tabs">
 			<button type="button" aria-pressed={mode === 'register'} class:chosen={mode === 'register'} onclick={() => (mode = 'register')}
 				>New to the crew</button

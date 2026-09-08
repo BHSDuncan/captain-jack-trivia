@@ -48,7 +48,7 @@
 		<p class="eyebrow">Reserved for the crew in the room</p>
 		<h2>Join Captain Jack’s Wi-Fi to play.</h2>
 		<p>Connect to the bar’s Wi-Fi, turn off any VPN or private relay, then refresh this page.</p>
-		<a class="button" href="/">I’m connected — try again</a>
+		<a class="button" href="/" data-sveltekit-reload>I’m connected — try again</a>
 	</section>
 {:else if data.contest}<section class="contest-panel">
 		<div>

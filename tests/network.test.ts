@@ -3,6 +3,17 @@ import { networkGate, normalizeIP } from '../src/lib/server/network';
 const env = { VERCEL_ENV: 'production', BAR_DDNS_HOSTNAME: 'bar.example.org' };
 const headers = (ip: string) => new Headers({ 'x-vercel-forwarded-for': ip });
 describe('bar network enforcement', () => {
+	it('reports a changed client IP immediately while reusing only DNS answers', async () => {
+		let now = 0;
+		const reports: import('../src/lib/server/network').NetworkDiagnostic[] = [];
+		const gate = networkGate(async () => ['192.0.2.4'], () => now);
+		expect(await gate(headers('192.0.2.5'), env, value => reports.push(value))).toBe(false);
+		now = 1000;
+		expect(await gate(headers('192.0.2.4'), env, value => reports.push(value))).toBe(true);
+		expect(reports[0]).toMatchObject({ allowed: false, dnsSource: 'lookup', clientIp: '192.0.2.5' });
+		expect(reports[1]).toMatchObject({ allowed: true, dnsSource: 'cached', dnsAgeMs: 1000, clientIp: '192.0.2.4' });
+		expect(reports[0].checkedAt).not.toBe(reports[1].checkedAt);
+	});
 	it('accepts normalized IPv4, mapped IPv4 and IPv6', async () => {
 		const gate = networkGate(async () => ['192.0.2.4', '2001:db8::4']);
 		expect(await gate(headers('192.0.2.4'), env)).toBe(true);

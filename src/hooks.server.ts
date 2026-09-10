@@ -17,7 +17,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 	const path = event.url.pathname;
 	if (path.startsWith('/api/auth/')) return adminAuth().handler(event.request);
-	event.locals.barNetwork = await onBarNetwork(event.request.headers);
+	event.locals.barNetwork = await onBarNetwork(event.request.headers, process.env,
+		process.env.NETWORK_DIAGNOSTICS === 'true' && ['/', '/join'].includes(path)
+			? (value) => { event.locals.networkDiagnostic = value; }
+			: undefined);
 	if (process.env.MONGODB_URI) {
 		if (path.startsWith('/admin')) {
 			const session = await adminAuth().api.getSession({ headers: event.request.headers });

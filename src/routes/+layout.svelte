@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import NetworkDiagnostics from '$lib/NetworkDiagnostics.svelte';
 	onMount(() => {
 		document.documentElement.dataset.hydrated = 'true';
 	});
@@ -30,7 +31,9 @@
 			>{:else}<a href="/join">Step aboard</a>{/if}
 	</nav>
 </header>
-<main id="main">{@render children()}</main>
+<main id="main">{@render children()}
+	{#if data.networkDiagnostic}<NetworkDiagnostics diagnostic={data.networkDiagnostic} />{/if}
+</main>
 <footer>
 	<span>CAPTAIN JACK <span class="muted">· Knowledge earns its keep.</span></span><a href="/admin"
 		>The captain’s desk</a

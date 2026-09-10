@@ -92,6 +92,16 @@ An IPv6 device address will not necessarily equal a router's DDNS AAAA address. 
 
 ## Launch validation that needs the bar
 
+### Temporary network diagnostics
+
+Set `NETWORK_DIAGNOSTICS=true` in the intended Vercel environment and redeploy to show a diagnostic panel on `/` and `/join`, both when allowed and denied. It is off by default. It displays the normalized client IP from Vercel's protected header, the resolved bar addresses used for the decision, app DNS cache age/source, server check time, and the decision reason. It does not bypass the network restriction or force a DNS refresh. No credentials, raw headers, cookies, or database details are exposed, and diagnostic IPs are not written to application logs or the database. While enabled, these public IP details are visible to visitors; share screenshots privately.
+
+At the bar, capture the panel before joining Wi-Fi, immediately after joining and pressing retry, and after access succeeds. Record whether Limit IP Address Tracking and any VPN were enabled. A changing server timestamp confirms a fresh check. An unchanged client IP may indicate the network path has not changed; a different nonmatching IP may be a relay or IPv6 address. Neither proves Private Relay is active. A fresh DNS lookup can still receive cached upstream DNS answers. The panel cannot identify Safari settings or the Wi-Fi network name.
+
+After troubleshooting, remove `NETWORK_DIAGNOSTICS` or set it to `false` and redeploy. The panel and its data will no longer be sent; the temporary diagnostic code can then be removed separately.
+
+### On-site checklist
+
 - Supply the real DDNS hostname, logo if available, prize language, owner-approved rules and winner instructions.
 - On actual guest Wi-Fi, register and play from Android and iPhone. Repeat off Wi-Fi, with VPN/private relay enabled, and after a DDNS address change.
 - Verify production admin access remotely and confirm preview cannot connect to the production database.

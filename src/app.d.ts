@@ -5,6 +5,7 @@ declare global {
 			player: Player | null;
 			admin: { id: string; email: string; name: string } | null;
 			barNetwork: boolean;
+			networkDiagnostic?: import('./lib/server/network').NetworkDiagnostic;
 		}
 	}
 }
